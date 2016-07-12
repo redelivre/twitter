@@ -163,7 +163,7 @@ class TwitterStrategy extends OpauthStrategy {
 		$this->tmhOAuth->config['user_token'] = $user_token;
 		$this->tmhOAuth->config['user_secret'] = $user_token_secret;
 		
-		$params = ['skip_status' => $this->strategy['verify_credentials_skip_status'], 'include_email'=>$this->strategy['verify_credentials_include_email']];
+		$params = array('skip_status' => $this->strategy['verify_credentials_skip_status'], 'include_email'=>$this->strategy['verify_credentials_include_email']);
 		
 		$response = $this->_request('GET', $this->strategy['verify_credentials_json_url'], $params);
 		
