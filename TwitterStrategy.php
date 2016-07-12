@@ -31,7 +31,7 @@ class TwitterStrategy extends OpauthStrategy {
 		'access_token_url' => 'https://api.twitter.com/oauth/access_token',
 		'verify_credentials_json_url' => 'https://api.twitter.com/1.1/account/verify_credentials.json',
 		'verify_credentials_skip_status' => 'true',
-                'verify_credentials_include_email' => 'false',
+                'verify_credentials_include_email' => 'true',
 		'twitter_profile_url' => 'http://twitter.com/{screen_name}',
 
 		// From tmhOAuth
@@ -108,7 +108,6 @@ class TwitterStrategy extends OpauthStrategy {
 
 			if ($results !== false && !empty($results['oauth_token']) && !empty($results['oauth_token_secret'])) {
 				$credentials = $this->_verify_credentials($results['oauth_token'], $results['oauth_token_secret']);
-				
 				if (!empty($credentials['id'])) {
 					
 					$this->auth = array(
@@ -118,7 +117,8 @@ class TwitterStrategy extends OpauthStrategy {
 							'nickname' => $credentials['screen_name'],
 							'urls' => array(
 								'twitter' => str_replace('{screen_name}', $credentials['screen_name'], $this->strategy['twitter_profile_url'])
-							)
+							),
+							'image' => $credentials['profile_image_url']
 						),
 						'credentials' => array(
 							'token' => $results['oauth_token'],
@@ -129,7 +129,7 @@ class TwitterStrategy extends OpauthStrategy {
 					
 					$this->mapProfile($credentials, 'location', 'info.location');
 					$this->mapProfile($credentials, 'description', 'info.description');
-					$this->mapProfile($credentials, 'profile_image_url', 'info.profile_image_url');
+					//$this->mapProfile($credentials, 'image', 'info.image');
 					//$this->mapProfile($credentials, 'url', 'info.urls.website');
 					
 					$this->callback();
